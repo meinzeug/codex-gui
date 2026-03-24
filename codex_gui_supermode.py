@@ -72,6 +72,7 @@ def main() -> int:
     while True:
         env = os.environ.copy()
         env["CODEX_GUI_SUPERMODE"] = "1"
+        env["CODEX_GUI_SUPERVISOR_PID"] = str(os.getpid())
         command = [args.python, str(app_path), *args.app_args]
 
         print(f"[supermode] starting {' '.join(command)}", file=sys.stderr, flush=True)

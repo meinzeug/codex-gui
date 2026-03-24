@@ -11,6 +11,7 @@ APP_DIR="$HOME/.local/share/applications"
 ICON_DIR="$HOME/.local/share/icons/hicolor/scalable/apps"
 LOCAL_DEPS_DIR="$SCRIPT_DIR/.python-deps"
 ICON_TARGET="$ICON_DIR/codex-gui.svg"
+SUPERMODE_ICON_TARGET="$ICON_DIR/codex-gui-supermode.svg"
 APP_LAUNCHER="$APP_DIR/codex-gui.desktop"
 SUPERMODE_LAUNCHER="$APP_DIR/codex-gui-supermode.desktop"
 DESKTOP_LAUNCHER="$DESKTOP_DIR/Codex GUI.desktop"
@@ -81,6 +82,7 @@ write_launcher() {
   local name="$2"
   local exec_cmd="$3"
   local comment="$4"
+  local icon_path="$5"
   cat >"$target" <<EOF
 [Desktop Entry]
 Type=Application
@@ -89,7 +91,7 @@ Name=$name
 Comment=$comment
 Exec=$exec_cmd
 Path=$SCRIPT_DIR
-Icon=$ICON_TARGET
+Icon=$icon_path
 Terminal=false
 Categories=Development;Utility;
 StartupNotify=true
@@ -103,18 +105,21 @@ EOF
 install_launchers() {
   mkdir -p "$APP_DIR" "$ICON_DIR" "$DESKTOP_DIR"
   install -m 0644 "$SCRIPT_DIR/codex-gui-icon.svg" "$ICON_TARGET"
+  install -m 0644 "$SCRIPT_DIR/codex-gui-supermode-icon.svg" "$SUPERMODE_ICON_TARGET"
 
   write_launcher \
     "$APP_LAUNCHER" \
     "Codex GUI" \
     "$SCRIPT_DIR/start.sh" \
-    "Startet die Codex-GUI"
+    "Startet die Codex-GUI" \
+    "$ICON_TARGET"
 
   write_launcher \
     "$SUPERMODE_LAUNCHER" \
     "Codex GUI Supermode" \
     "$SCRIPT_DIR/start_supermode.sh" \
-    "Startet die Codex-GUI mit automatischem Neustart"
+    "Startet die Codex-GUI mit automatischem Neustart" \
+    "$SUPERMODE_ICON_TARGET"
 
   install -m 0755 "$APP_LAUNCHER" "$DESKTOP_LAUNCHER"
   install -m 0755 "$SUPERMODE_LAUNCHER" "$DESKTOP_SUPERMODE_LAUNCHER"
