@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.python-deps/
+.codex-gui-state.json
+shot-test.jpg
+shot-test2.jpg
+*.log
